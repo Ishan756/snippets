@@ -16,6 +16,8 @@ const createSnippetSchema = z.object({
   isPublic: z.boolean().default(true),
 });
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);

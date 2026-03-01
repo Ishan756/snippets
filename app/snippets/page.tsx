@@ -9,7 +9,9 @@ import { toast } from "sonner";
 import { FiltersSidebar } from "@/components/snippets/filters-sidebar";
 import { SnippetsGrid } from "@/components/snippets/snippets-grid";
 
-export default function SnippetsPage() {
+import { Suspense } from "react";
+
+function SnippetsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [snippets, setSnippets] = useState<Snippet[]>([]);
@@ -116,5 +118,13 @@ export default function SnippetsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SnippetsPage() {
+  return (
+    <Suspense fallback={<div>Loading snippets...</div>}>
+      <SnippetsContent />
+    </Suspense>
   );
 }

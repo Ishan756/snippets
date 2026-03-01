@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { AIResponseParser } from "@/lib/utils/ai-parser";
 
 const model = new ChatGoogleGenerativeAI({
-  modelName: "gemini-3-flash-preview",
+  model: "gemini-3-flash-preview",
   apiKey: process.env.GOOGLE_GEMINI_API_KEY,
 });
 
