@@ -1,17 +1,19 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { NextResponse } from "next/server";
 import { AIResponseParser } from "@/lib/utils/ai-parser";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
+const model = new ChatGoogleGenerativeAI({
+  modelName: "gemini-3-flash-preview",
+  apiKey: process.env.GOOGLE_GEMINI_API_KEY,
+});
 
 export async function POST(req: Request) {
   try {
     const { prompt } = await req.json();
 
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
-
-    const result = await model.generateContent(`
-      You are a code snippet generator. Generate a code snippet based on this request: "${prompt}"
+    const result = await model.invoke([
+      new SystemMessage(`You are a code snippet generator.
       
       Important: Your response must be ONLY a valid JSON object with no additional text or formatting. Use this exact format:
       {
@@ -31,11 +33,11 @@ export async function POST(req: Request) {
       4. Framework should only be included if actually used
       5. Maximum 5 relevant tags
       6. Code should include comments and proper formatting
-      7. Category must be exactly one of the specified values (case-sensitive)
-    `);
+      7. Category must be exactly one of the specified values (case-sensitive)`),
+      new HumanMessage(`Generate a code snippet based on this request: "${prompt}"`)
+    ]);
 
-    const response = result.response;
-    const text = response.text();
+    const text = typeof result.content === "string" ? result.content : JSON.stringify(result.content);
 
     console.log("Raw AI response:", text);
 
