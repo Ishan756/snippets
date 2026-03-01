@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import * as z from "zod";
 import { Prisma } from "@prisma/client";
 import { authOptions } from "../auth/[...nextauth]/auth";
+import { redis } from "@/lib/redis";
 
 const createSnippetSchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
@@ -66,6 +67,14 @@ export async function POST(req: Request) {
       },
     });
 
+    // Invalidate cache
+    try {
+      await redis.del("snippets:all");
+      console.log("Cache invalidated: snippets:all");
+    } catch (redisError) {
+      console.error("Redis invalidation error:", redisError);
+    }
+
     return NextResponse.json(snippet);
   } catch (error) {
     console.error("Error creating snippet:", error);
@@ -104,6 +113,18 @@ export async function GET(request: Request) {
       ...(language && { language }),
     };
 
+    const cacheKey = `snippets:all:${JSON.stringify(where)}`;
+
+    try {
+      const cachedSnippets = await redis.get(cacheKey);
+      if (cachedSnippets) {
+        console.log("Cache Hit: ", cacheKey);
+        return NextResponse.json(JSON.parse(cachedSnippets));
+      }
+    } catch (redisError) {
+      console.error("Redis fetch error:", redisError);
+    }
+
     const snippets = await prisma.snippet.findMany({
       where,
       include: {
@@ -119,6 +140,13 @@ export async function GET(request: Request) {
         createdAt: "desc",
       },
     });
+
+    try {
+      await redis.setex(cacheKey, 3600, JSON.stringify(snippets)); // Cache for 1 hour
+      console.log("Cache Miss: ", cacheKey);
+    } catch (redisError) {
+      console.error("Redis set error:", redisError);
+    }
 
     return NextResponse.json(snippets);
   } catch (error) {
