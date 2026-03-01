@@ -148,7 +148,7 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-              <p>Join thousands of developers sharing their code</p>
+              <p>Join developers of IIIT bhopal for sharing their code</p>
             </motion.div>
           </motion.div>
         </div>
