@@ -1,29 +1,16 @@
-# 🚀 CodeLabs: Student Assignment & Snippet Sharing Hub
+# 🚀 CodeSnippets: Student Assignment & Snippet Sharing Hub
 
-**CodeLabs** is a modern, full-stack web application designed for college students to share, store, and collaborate on code snippets and assignments. Built with Next.js 14, Prisma, and Redis, it offers a high-performance experience with AI-powered enhancements.
-
----
-
-## 🎓 Project Purpose
-
-In a collaborative college environment, students often need a centralized hub to:
-
-- **Share Assignments**: Quickly post and share boilerplate or completed assignments with peers.
-- **Collaborative Learning**: Browse snippets by language, framework, or category (e.g., Data Structures, Web Dev).
-- **AI-Assistance**: Use Google Gemini AI to help explain or optimize shared code.
-- **Personal Library**: Keep a private or public collection of frequently used code blocks.
+**CodeSnippets** is a high-performance, full-stack web application designed for developers and students to share, store, and collaborate on code logic. Built with Next.js 14, Prisma, and Redis, it features a premium "blank canvas" UI and AI-powered enhancements.
 
 ---
 
-## ✨ Features
+## ✨ New Features & Updates
 
-- 🔐 **Secure Authentication**: Integration with GitHub and Google OAuth via NextAuth.
-- 📝 **Rich Snippets**: Code highlighting for multiple languages and frameworks.
-- 🔍 **Advanced Filtering**: Search by title, language, or category with instant feedback.
-- ⚡ **Redis Caching**: High-performance data retrieval using a Redis caching layer.
-- 🤖 **AI Integration**: Powered by Google Gemini for intelligent code interactions.
-- 🐳 **Dockerized**: Fully containerized environment for seamless local development.
-- 📱 **Modern UI**: Built with Tailwind CSS and Framer Motion for a premium, responsive feel.
+- 🎨 **Premium UI**: Redesigned home page with a clean, centered aesthetic, featuring animated ambient background glows and a minimal grid pattern.
+- 🧪 **Cypress E2E Testing**: Comprehensive test suite covering user authentication (Sign Up/Sign In) and all core API endpoints.
+- 🔄 **CI/CD Pipeline**: Integrated GitHub Actions workflow that automatically lints, type-checks, and runs E2E tests on every push.
+- 🤖 **AI Generation**: Powered by Google Gemini AI to generate optimized code blocks instantly.
+- 🔐 **Secure Auth**: NextAuth integration with custom session handling for robust testing and user security.
 
 ---
 
@@ -31,74 +18,74 @@ In a collaborative college environment, students often need a centralized hub to
 
 - **Framework**: Next.js 14 (App Router)
 - **Database**: PostgreSQL (Prisma ORM)
-- **Caching**: Redis (Upstash supported for Production)
-- **Authentication**: NextAuth.js
-- **AI Engine**: Google Gemini AI
-- **Styling**: Tailwind CSS & Lucide Icons
-- **Deployment**: Optimized for Vercel & Docker
+- **Caching**: Redis
+- **Testing**: Cypress (End-to-End)
+- **CI/CD**: GitHub Actions
+- **AI Engine**: Google Gemini API
+- **Styling**: Tailwind CSS & Framer Motion
 
 ---
 
-## 🚀 Getting Started (Local Development)
+## 🧪 Testing
 
-### Prerequisites
+We use Cypress for end-to-end testing to ensure a stable user experience.
 
-- Docker & Docker Desktop
-- Node.js 18+ (if running without Docker)
+### Running Tests Locally
 
-### 1. Clone the repository
+Ensure your development server is running (`npm run dev`), then:
 
 ```bash
-git clone https://github.com/Ishan756/snippets.git
-cd snippets
+# Open interactive Cypress runner
+npm run cypress:open
+
+# Run tests in headless mode
+npm run cypress:run
 ```
 
-### 2. Setup Environment Variables
+### CI/CD Pipeline
 
-Create a `.env` file in the root directory:
+The included GitHub Action (`.github/workflows/pipeline.yml`) automatically:
+
+1. Spinst up ephemeral Postgres & Redis containers.
+2. Performs linting and TypeScript type checks.
+3. Builds the production bundle.
+4. Executes the full Cypress test suite.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Setup Environment
+
+Create a `.env` file based on the project requirements:
 
 ```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/snippets?sslmode=disable"
-REDIS_URL="redis://localhost:6379"
+DATABASE_URL="postgresql://..."
+REDIS_URL="redis://..."
 NEXTAUTH_SECRET="your_secret"
-NEXTAUTH_URL="http://localhost:3000"
-GITHUB_ID="your_id"
-GITHUB_SECRET="your_secret"
-GOOGLE_CLIENT_ID="your_id"
-GOOGLE_CLIENT_SECRET="your_secret"
-GOOGLE_GEMINI_API_KEY="your_api_key"
+GOOGLE_GEMINI_API_KEY="your_key"
 ```
 
-### 3. Run with Docker (Recommended)
+### 2. Development
 
-This starts the App, Database, and Redis all at once:
+```bash
+# Install dependencies
+npm install
+
+# Run dev server
+npm run dev
+```
+
+### 3. Docker (Alternative)
 
 ```bash
 docker-compose up --build
 ```
 
-### 4. Initialize the Database
-
-While Docker is running, open a new terminal and run:
-
-```bash
-npx prisma db push
-```
-
-Your app will be live at **[http://localhost:3000](http://localhost:3000)**.
-
----
-
-## 🌐 Deploying to Production (Vercel)
-
-1. **Database**: Use a managed Postgres instance (e.g., Supabase).
-2. **Redis**: Use [Upstash Redis](https://upstash.com/) for cloud caching.
-3. **Environment**: Add all variables from your `.env` to the Vercel Dashboard.
-
 ---
 
 ## 🤝 Contributing
 
-Contributions from fellow students are welcome! Please fork the repo and submit a PR for any new features or UI improvements.
+Contributions are welcome! Please ensure all tests pass (`npm run cypress:run`) before submitting a Pull Request.
 
 **Happy Coding!** 💻🔥
