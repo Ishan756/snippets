@@ -64,6 +64,11 @@ DATABASE_URL="postgresql://..."
 REDIS_URL="redis://..."
 NEXTAUTH_SECRET="your_secret"
 GOOGLE_GEMINI_API_KEY="your_key"
+NEXTAUTH_URL="http://localhost:3000"
+GITHUB_ID=""
+GITHUB_SECRET=""
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
 ```
 
 ### 2. Development
