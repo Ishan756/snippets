@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
@@ -28,7 +28,7 @@ function SnippetsContent() {
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [isOpen, setIsOpen] = useState(false);
 
-  const fetchSnippets = async () => {
+  const fetchSnippets = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
@@ -50,11 +50,11 @@ function SnippetsContent() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [language, framework, category, search]);
 
   useEffect(() => {
     fetchSnippets();
-  }, [language, framework, category, search]);
+  }, [fetchSnippets]);
 
   const updateFilters = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);

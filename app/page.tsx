@@ -182,7 +182,7 @@ export default function HomePage() {
         <div className="container mx-auto px-6 text-center space-y-12">
             <Icons.sparkles className="h-6 w-6 mx-auto text-primary animate-pulse" />
             <p className="text-xl lg:text-2xl text-foreground/80 max-w-2xl mx-auto leading-relaxed font-extralight italic">
-              "Logic is the beginning of wisdom, not the end."
+              &quot;Logic is the beginning of wisdom, not the end.&quot;
             </p>
             <div className="flex justify-center gap-12 pt-8 opacity-20 group-hover:opacity-100 transition-opacity">
                <Share2 className="h-5 w-5 hover:text-primary transition-colors cursor-pointer" />
